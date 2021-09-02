@@ -18,16 +18,24 @@ use PDOException;
 abstract class PDOAdapter implements DatabaseInterface
 {
     private PDO $pdo;
-    protected string $identifierQuote = '`';
-    protected int $integrityConstraintExceptionCode = 23000;
-    protected array $pdoOptions = [
-        PDO::ATTR_PERSISTENT         => true,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-    ];
 
-    public const IMAGEINFO_TABLE = 'imageinfo';
-    public const SHORTURL_TABLE = 'shorturl';
+    private const IMAGEINFO_TABLE = 'imageinfo';
+    private const SHORTURL_TABLE = 'shorturl';
+
+    abstract protected function getIdentifierQuote(): string;
+    abstract protected function getUniqueConstraintExceptionCode(): int;
+
+    /**
+     * @return array<int,bool|int>
+     */
+    protected function getPDOOptions(): array
+    {
+        return [
+            PDO::ATTR_PERSISTENT         => true,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+        ];
+    }
 
     /**
      * Class constructor
@@ -39,7 +47,7 @@ abstract class PDOAdapter implements DatabaseInterface
      */
     public function __construct(string $dsn, string $username = null, string $password = null, array $options = [])
     {
-        $this->pdo = new PDO($dsn, $username, $password, array_replace($options, $this->pdoOptions));
+        $this->pdo = new PDO($dsn, $username, $password, array_replace($this->getPDOOptions(), $options));
     }
 
     public function insertImage(string $user, string $imageIdentifier, Image $image, bool $updateIfDuplicate = true): bool
@@ -117,7 +125,7 @@ abstract class PDOAdapter implements DatabaseInterface
                     'originalChecksum' => $image->getOriginalChecksum(),
                 ]);
         } catch (PDOException $e) {
-            if ($this->integrityConstraintExceptionCode === (int) $e->getCode()) {
+            if ($this->getUniqueConstraintExceptionCode() === (int) $e->getCode()) {
                 throw new DuplicateImageIdentifierException(
                     'Duplicate image identifier when attempting to insert image into DB.',
                     503,
@@ -809,6 +817,6 @@ abstract class PDOAdapter implements DatabaseInterface
      */
     private function quote(string $identifier): string
     {
-        return sprintf('%1$s%2$s%1$s', $this->identifierQuote, $identifier);
+        return sprintf('%1$s%2$s%1$s', $this->getIdentifierQuote(), $identifier);
     }
 }
