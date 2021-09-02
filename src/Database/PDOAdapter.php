@@ -5,7 +5,6 @@ use DateTime;
 use DateTimeZone;
 use Imbo\Exception\DatabaseException;
 use Imbo\Exception\DuplicateImageIdentifierException;
-use Imbo\Exception\InvalidArgumentException;
 use Imbo\Model\Image;
 use Imbo\Model\Images;
 use Imbo\Resource\Images\Query;
@@ -266,7 +265,7 @@ abstract class PDOAdapter implements DatabaseInterface
 
             foreach ($sort as $f) {
                 if (!isset($validFields[$f['field']])) {
-                    throw new InvalidArgumentException('Invalid sort field: ' . $f['field'], 400);
+                    throw new DatabaseException('Invalid sort field: ' . $f['field'], 400);
                 }
 
                 $orderBy[$f['field']] = $f['sort'];
