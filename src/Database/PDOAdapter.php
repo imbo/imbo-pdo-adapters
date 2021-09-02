@@ -19,8 +19,8 @@ abstract class PDOAdapter implements DatabaseInterface
 {
     private PDO $pdo;
 
-    private const IMAGEINFO_TABLE = 'imageinfo';
-    private const SHORTURL_TABLE = 'shorturl';
+    protected const IMAGEINFO_TABLE = 'imageinfo';
+    protected const SHORTURL_TABLE = 'shorturl';
 
     abstract protected function getIdentifierQuote(): string;
     abstract protected function getUniqueConstraintExceptionCode(): int;
