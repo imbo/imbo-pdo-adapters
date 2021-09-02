@@ -47,7 +47,11 @@ abstract class PDOAdapter implements DatabaseInterface
      */
     public function __construct(string $dsn, string $username = null, string $password = null, array $options = [])
     {
-        $this->pdo = new PDO($dsn, $username, $password, array_replace($this->getPDOOptions(), $options));
+        try {
+            $this->pdo = new PDO($dsn, $username, $password, array_replace($this->getPDOOptions(), $options));
+        } catch (PDOException $e) {
+            throw new DatabaseException('Unable to connect to the database', 503, $e);
+        }
     }
 
     public function insertImage(string $user, string $imageIdentifier, Image $image, bool $updateIfDuplicate = true): bool
@@ -786,7 +790,7 @@ abstract class PDOAdapter implements DatabaseInterface
      * @param string $imageIdentifier The image identifier
      * @return ?int
      */
-    private function getImageId(string $user, string $imageIdentifier): ?int
+    protected function getImageId(string $user, string $imageIdentifier): ?int
     {
         $sql = <<<SQL
             SELECT
@@ -815,7 +819,7 @@ abstract class PDOAdapter implements DatabaseInterface
      * @param string $identifier Identifier to quote
      * @return string
      */
-    private function quote(string $identifier): string
+    protected function quote(string $identifier): string
     {
         return sprintf('%1$s%2$s%1$s', $this->getIdentifierQuote(), $identifier);
     }
