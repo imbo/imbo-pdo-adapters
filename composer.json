@@ -1,0 +1,44 @@
+{
+  "name": "imbo/imbo-pdo-adapters",
+  "type": "library",
+  "description": "PDO adapters for Imbo",
+  "keywords": [ "imbo" ],
+  "homepage": "https://imbo.io/",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Christer Edvartsen",
+      "email": "cogo@starzinger.net",
+      "homepage": "https://github.com/christeredvartsen"
+    }, {
+      "name": "Contributors",
+      "homepage": "https://github.com/imbo"
+    }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "ext-pdo": "*"
+  },
+  "require-dev": {
+    "imbo/imbo": "dev-develop",
+    "imbo/imbo-coding-standard": "^2.0",
+    "psalm/plugin-phpunit": "^0.16.1",
+    "vimeo/psalm": "^4.9"
+  },
+  "autoload": {
+    "psr-4": {
+      "Imbo\\": "src/"
+    }
+  },
+  "scripts": {
+    "sa": "vendor/bin/psalm",
+    "cs": "php-cs-fixer fix --dry-run --diff",
+    "ci": [
+      "@sa",
+      "@cs"
+    ]
+  },
+  "config": {
+    "sort-packages": true
+  }
+}

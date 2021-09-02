@@ -1,0 +1,5 @@
+build
+vendor
+.psalm
+.php-cs-fixer.cache
+.vscode
