@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 namespace Imbo\EventListener\ImageVariations\Database;
 
-use Imbo\Database\IdentifierQuoter;
 use Imbo\Exception\DatabaseException;
+use Imbo\IdentifierQuoter;
 use PDO;
 use PDOException;
 

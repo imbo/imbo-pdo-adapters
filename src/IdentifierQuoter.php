@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-namespace Imbo\Database;
+namespace Imbo;
 
 trait IdentifierQuoter
 {
