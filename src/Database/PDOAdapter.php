@@ -30,9 +30,7 @@ abstract class PDOAdapter implements DatabaseInterface
     protected function getPDOOptions(): array
     {
         return [
-            PDO::ATTR_PERSISTENT         => true,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_PERSISTENT => true,
         ];
     }
 
@@ -47,7 +45,24 @@ abstract class PDOAdapter implements DatabaseInterface
     public function __construct(string $dsn, string $username = null, string $password = null, array $options = [])
     {
         try {
-            $this->pdo = new PDO($dsn, $username, $password, array_replace($this->getPDOOptions(), $options));
+            $this->pdo = new PDO(
+                $dsn,
+                $username,
+                $password,
+                array_replace(
+                    // Default options
+                    $this->getPDOOptions(),
+
+                    // User specified options
+                    $options,
+
+                    // Forced options
+                    [
+                        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+                    ],
+                ),
+            );
         } catch (PDOException $e) {
             throw new DatabaseException('Unable to connect to the database', 503, $e);
         }
