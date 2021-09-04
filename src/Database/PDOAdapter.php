@@ -396,7 +396,7 @@ abstract class PDOAdapter implements DatabaseInterface
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($parameters);
-        /** @var array<int,array{metadata:string,extension:string,added:string,updated:string,checksum:string,originalChecksum:string,user:string,imageIdentifier:string,mime:string,size:string,width:string,height:string}> */
+        /** @var array<int,array{metadata:?string,extension:string,added:string,updated:string,checksum:string,originalChecksum:string,user:string,imageIdentifier:string,mime:string,size:string,width:string,height:string}> */
         $rows = $stmt->fetchAll();
 
         $returnMetadata = $query->getReturnMetadata();
@@ -418,7 +418,7 @@ abstract class PDOAdapter implements DatabaseInterface
 
             if ($returnMetadata) {
                 /** @var array<string,mixed> */
-                $image['metadata'] = json_decode($row['metadata'], true);
+                $image['metadata'] = null !== $row['metadata'] ? json_decode($row['metadata'], true) : [];
             }
 
             $images[] = $image;
