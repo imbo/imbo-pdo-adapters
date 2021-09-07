@@ -20,7 +20,7 @@
     "ext-pdo": "*"
   },
   "require-dev": {
-    "imbo/imbo": "dev-develop",
+    "imbo/imbo": "dev-main",
     "imbo/imbo-coding-standard": "^2.0",
     "psalm/plugin-phpunit": "^0.16.1",
     "vimeo/psalm": "^4.9"
