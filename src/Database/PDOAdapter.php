@@ -378,13 +378,9 @@ abstract class PDOAdapter implements DatabaseInterface
             }
         }
 
-        $orderByClause = '';
-
-        if (count($orderBy)) {
-            $orderByClause = 'ORDER BY ' . implode(', ', array_map(function (string $col, string $dir): string {
-                return sprintf("{$this->quote($col)} %s", $dir);
-            }, array_keys($orderBy), array_values($orderBy)));
-        }
+        $orderByClause = 'ORDER BY ' . implode(', ', array_map(function (string $col, string $dir): string {
+            return sprintf("{$this->quote($col)} %s", $dir);
+        }, array_keys($orderBy), array_values($orderBy)));
 
         $sql = <<<SQL
             SELECT
