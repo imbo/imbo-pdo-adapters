@@ -220,6 +220,7 @@ abstract class PDOAdapter implements DatabaseInterface
             ':id' => $id,
         ]);
 
+        /** @var mixed */
         $result = $stmt->fetchColumn();
 
         /** @var array<string,mixed> */
