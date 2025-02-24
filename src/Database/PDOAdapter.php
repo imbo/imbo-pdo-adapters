@@ -42,7 +42,7 @@ abstract class PDOAdapter implements DatabaseInterface
      * @param string $dsn Database DSN
      * @param string $username Username for the DSN string
      * @param string $password Password for the DSN string
-     * @param array $options Driver specific options
+     * @param array<mixed> $options Driver specific options
      */
     public function __construct(string $dsn, string $username = null, string $password = null, array $options = [])
     {
@@ -395,7 +395,7 @@ abstract class PDOAdapter implements DatabaseInterface
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($parameters);
-        /** @var array<int,array{metadata:?string,extension:string,added:string,updated:string,checksum:string,originalChecksum:string,user:string,imageIdentifier:string,mime:string,size:string,width:string,height:string}> */
+        /** @var array<int,array{metadata:?string,extension:string,added:string,updated:string,checksum:string,originalChecksum:?string,user:string,imageIdentifier:string,mime:string,size:string,width:string,height:string}> */
         $rows = $stmt->fetchAll();
 
         $returnMetadata = $query->getReturnMetadata();
@@ -416,7 +416,7 @@ abstract class PDOAdapter implements DatabaseInterface
             ];
 
             if ($returnMetadata) {
-                /** @var array<string,mixed> */
+                /** @var array<string,mixed> $image['metadata'] */
                 $image['metadata'] = null !== $row['metadata'] ? json_decode($row['metadata'], true) : [];
             }
 
@@ -704,8 +704,8 @@ abstract class PDOAdapter implements DatabaseInterface
         }
 
         /** @var array<string,string|array<string>> */
-        $row['query'] = unserialize($row['query']);
-
+        $query = unserialize($row['query']);
+        $row['query'] = $query;
         return $row;
     }
 

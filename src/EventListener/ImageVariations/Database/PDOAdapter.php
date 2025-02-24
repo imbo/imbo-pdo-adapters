@@ -33,7 +33,7 @@ abstract class PDOAdapter implements DatabaseInterface
      * @param string $dsn Database DSN
      * @param string $username Username for the DSN string
      * @param string $password Password for the DSN string
-     * @param array $options Driver specific options
+     * @param array<mixed> $options Driver specific options
      */
     public function __construct(string $dsn, string $username = null, string $password = null, array $options = [])
     {
