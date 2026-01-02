@@ -35,7 +35,7 @@ abstract class PDOAdapter implements DatabaseInterface
      * @param string $password Password for the DSN string
      * @param array<mixed> $options Driver specific options
      */
-    public function __construct(string $dsn, string $username = null, string $password = null, array $options = [])
+    public function __construct(string $dsn, ?string $username = null, ?string $password = null, array $options = [])
     {
         try {
             $this->pdo = new PDO(
@@ -127,7 +127,7 @@ abstract class PDOAdapter implements DatabaseInterface
         ];
     }
 
-    public function deleteImageVariations(string $user, string $imageIdentifier, int $width = null): bool
+    public function deleteImageVariations(string $user, string $imageIdentifier, ?int $width = null): bool
     {
         $parameters = [
             ':user' => $user,

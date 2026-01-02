@@ -44,7 +44,7 @@ abstract class PDOAdapter implements DatabaseInterface
      * @param string $password Password for the DSN string
      * @param array<mixed> $options Driver specific options
      */
-    public function __construct(string $dsn, string $username = null, string $password = null, array $options = [])
+    public function __construct(string $dsn, ?string $username = null, ?string $password = null, array $options = [])
     {
         try {
             $this->pdo = new PDO(
@@ -477,7 +477,7 @@ abstract class PDOAdapter implements DatabaseInterface
         return true;
     }
 
-    public function getLastModified(array $users, string $imageIdentifier = null): DateTime
+    public function getLastModified(array $users, ?string $imageIdentifier = null): DateTime
     {
         $where = [];
         $parameters = [];
@@ -560,7 +560,7 @@ abstract class PDOAdapter implements DatabaseInterface
         return $time;
     }
 
-    public function getNumImages(string $user = null): int
+    public function getNumImages(?string $user = null): int
     {
         $whereClause = '';
         $parameters = [];
@@ -584,7 +584,7 @@ abstract class PDOAdapter implements DatabaseInterface
         return (int) $stmt->fetchColumn();
     }
 
-    public function getNumBytes(string $user = null): int
+    public function getNumBytes(?string $user = null): int
     {
         $parameters = [];
         $whereClause = '';
@@ -651,7 +651,7 @@ abstract class PDOAdapter implements DatabaseInterface
         return (bool) $this->getImageId($user, $imageIdentifier);
     }
 
-    public function insertShortUrl(string $shortUrlId, string $user, string $imageIdentifier, string $extension = null, array $query = []): bool
+    public function insertShortUrl(string $shortUrlId, string $user, string $imageIdentifier, ?string $extension = null, array $query = []): bool
     {
         $sql = <<<SQL
             INSERT INTO {$this->quote(self::SHORTURL_TABLE)} (
@@ -709,7 +709,7 @@ abstract class PDOAdapter implements DatabaseInterface
         return $row;
     }
 
-    public function getShortUrlId(string $user, string $imageIdentifier, string $extension = null, array $query = []): ?string
+    public function getShortUrlId(string $user, string $imageIdentifier, ?string $extension = null, array $query = []): ?string
     {
         $parameters = [
             ':user'            => $user,
@@ -748,7 +748,7 @@ abstract class PDOAdapter implements DatabaseInterface
         return $row['shortUrlId'];
     }
 
-    public function deleteShortUrls(string $user, string $imageIdentifier, string $shortUrlId = null): bool
+    public function deleteShortUrls(string $user, string $imageIdentifier, ?string $shortUrlId = null): bool
     {
         $where = [
             "{$this->quote('user')} = :user",

@@ -2,7 +2,9 @@
   "name": "imbo/imbo-pdo-adapters",
   "type": "library",
   "description": "PDO adapters for Imbo",
-  "keywords": [ "imbo" ],
+  "keywords": [
+    "imbo"
+  ],
   "homepage": "https://imbo.io/",
   "license": "MIT",
   "authors": [
@@ -10,7 +12,8 @@
       "name": "Christer Edvartsen",
       "email": "cogo@starzinger.net",
       "homepage": "https://github.com/christeredvartsen"
-    }, {
+    },
+    {
       "name": "Contributors",
       "homepage": "https://github.com/imbo"
     }
@@ -20,9 +23,9 @@
     "ext-pdo": "*"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^3.70",
+    "friendsofphp/php-cs-fixer": "^3.92",
     "imbo/imbo": "dev-main",
-    "imbo/imbo-coding-standard": "^2.0",
+    "imbo/imbo-coding-standard": "^2.1",
     "phpstan/phpstan": "^2.1"
   },
   "autoload": {
@@ -32,7 +35,8 @@
   },
   "scripts": {
     "sa": "vendor/bin/phpstan analyse",
-    "cs": "vendor/bin/php-cs-fixer fix --dry-run --diff",
+    "cs": "vendor/bin/php-cs-fixer check --diff",
+    "cs:fix": "vendor/bin/php-cs-fixer fix --diff",
     "ci": [
       "@sa",
       "@cs"
